@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>理财产品系统</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/bsadmin.css">
+</head>
+<body>
+
+<div class="row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm">
+  <a class="sidebar-toggle mr-3 " id="sidebar-toggle"><i class="fa fa-bars"></i></a>
+  <h5 class="my-0 mr-md-auto font-weight-normal">理财产品系统</h5>
+  <a class="btn btn-outline-primary" href="login.html">登录</a>
+</div>
+
+
+<div class="d-flex">
+    <nav class="sidebar">
+        <ul class="list-unstyled">
+            <li><a href="#"><i class="fa fa-fw fa-link"></i> 商城首页</a></li>
+            <hr/>
+            
+        </ul>
+    </nav>
+
+    <div class="container-fluid bg-light" >
+      <div class="row">
+          <div class="col-sm-3 col-lg-2 border-right" >
+              <br/>
+              <ul class="nav nav-pills flex-column" role="tablist">
+                  <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#home">综合排序</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">按类型查看</a>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" data-toggle="tab" href="#menu1">类型 1</a>
+                        <a class="dropdown-item" data-toggle="tab" href="#menu2">类型 2</a>
+                        <a class="dropdown-item" data-toggle="tab" href="#menu3">类型 3</a></div>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#menu1" >期长从低到高</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#menu2">收益率从高到低</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#menu3">风险评级从低到高</a>
+                  </li>
+              </ul>
+          </div>
+          <div class="col-sm-9 col-lg-10">
+              <div class="tab-content">
+                  <div id="home" class="container tab-pane active"><br>
+                      <div class="row">
+                          <div class="col-lg-4">
+                              <div class="card mb-3 shadow-sm" style="border-radius: 10px;">
+                                  <div class="card-header bg-dark text-white" style="border-top-right-radius: 10px;border-top-left-radius: 10px;" >
+                                  <h4 class="my-0 font-weight-normal">产品名称#</h4>
+                                  </div>
+                                  <div class="card-body">
+                                  <h1 class="card-title pricing-card-title">收益率(#) <small class="text-muted">%</small></h1>
+                                  <ul class="list-unstyled mt-3 mb-3">
+                                      <li>产品类型#</li>
+                                      <li>期长#</li>
+                                      <li>风险评级#</li>
+                                  </ul>
+                                  <button type="button" class="btn btn-lg btn-block btn-link border-primary" data-toggle="modal" data-target="#productInfoModal" >去看看</button>
+                                  <div class="modal fade" data-backdrop="static" tabindex="-1" id="productInfoModal">
+                                      <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                     
+                                          <!-- 模态框头部 -->
+                                          <div class="modal-header bg-light">
+                                            <h4 class="modal-title">产品详细信息</h4>
+                                          </div>
+                                     
+                                          <!-- 模态框主体 -->
+                                          <div class="modal-body">
+                                                      <div class="container-fluid bg-white" style="height: 560px; overflow: auto;">
+                                                          <div class="row">
+                                                              <div class="col-sm-5 border-right">
+                                                                  <h5 class="ml-3 mt-3 font-weight-bold text-center">产品名称#</h5> <hr/>
+                                                                  <table class="table table-hover table">
+                                                                      <tbody>
+                                                                          <tr>
+                                                                              <td><h6>收益率</h6></td>
+                                                                              <td><h6>3.7<small class="text-muted">&nbsp;%</small></h6></td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td><h6>风险评级</h6></td>
+                                                                              <td><h6>1</h6></td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td><h6>期长</h6></td>
+                                                                              <td><h6>3<small class="text-muted">&nbsp;月</small></h6></td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td><h6>剩余额度/总额度</h6></td>
+                                                                              <td><h6>3,000<small class="text-muted">&nbsp;/&nbsp;</small>20,000</h6></td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td><h6>起购金额</h6></td>
+                                                                              <td><h6>10,000</h6></td>
+                                                                          </tr>
+                                                                      </tbody>
+                                                                  </table>
+                                                                  <hr/><br/>
+                                                                  <div class="row m-auto" style="width: 80%;">
+                                                                      <button type="button" class="btn btn-block btn-success mb-3" data-toggle="modal" data-target="#buyproductModal">买入</button>
+                                                                      <div class="modal fade " style="margin-top: 14%;" tabindex="-1" id="buyproductModal">
+                                                                          <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                              <div class="modal-header bg-success text-white">
+                                                                                <h4 class="modal-title">买入产品</h4>
+                                                                                
+                                                                              </div>
+                                                                              <div class="modal-body">
+                                                                                  <form class="bs-example bs-example-form" role="form">
+                                                                                      <div >
+                                                                                          <input type="text" placeholder="请输入大于#的金额" class="form-control mb-2">
+                                                                                          <input type="password" placeholder="请输入账户密码" class="form-control mb-3">
+                                                                                          <span class="input-group-addon"><a class="btn btn-block btn-link border-primary" href="payment.html">提交</a></span>
+                                                                                      </div>
+                                                                                  </form>
+                                                                              </div> 
+                                                                            </div>
+                                                                          </div>
+                                                                      </div>
+                                                                      <button type="button" data-toggle="modal" data-target="#sellproductModal" class="btn btn-block btn-danger">卖出</button>
+                                                                      <div class="modal fade" style="margin-top: 14%;" tabindex="-1" id="sellproductModal">
+                                                                          <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                              <div class="modal-header bg-danger text-white">
+                                                                                <h4 class="modal-title">卖出产品</h4>
+                                                                              </div>
+                                                                              <div class="modal-body">
+                                                                                  <form class="bs-example bs-example-form" role="form">
+                                                                                      <div >
+                                                                                          <input type="text" placeholder="请输入小于#的金额" class="form-control mb-2">
+                                                                                          <input type="password" placeholder="请输入账户密码" class="form-control mb-3">
+                                                                                          <span class="input-group-addon"><a class="btn btn-block btn-link border-primary" href="myOrder.html">提交</a></span>
+                                                                                      </div>
+                                                                                  </form>
+                                                                              </div> 
+                                                                            </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="col-sm-7">
+                                                                  <h5 class="ml-3 mt-3">评估记录</h5> <hr/>
+                                                                  <div class="container" style="height: 480px; overflow: auto;">
+                                                                      <ul class="list-unstyled">
+                                                                          <li>
+                                                                              <div class="border bg-light" style="border-radius: 10px;">
+                                                                                  <div class="row">
+                                                                                      <h6 class="text-primary ml-4 mt-1">评价人</h6>
+                                                                                      <h6 class="ml-auto text-warning mr-4 mt-1">评价等级</h6>
+                                                                                    </div>
+                                                                                  <div><h4 class="ml-5 mt-2 mb-3 mt-2">评价内容</h4></div>
+                                                                                  <div><h6 class="text-muted ml-1">评价时间</h6></div>
+                                                                              </div>
+                                                                          </li> <br/>
+                                                                          <li>
+                                                                              <div class="border bg-light" style="border-radius: 10px;">
+                                                                                  <div class="row">
+                                                                                      <h6 class="text-primary ml-4 mt-1">评价人</h6>
+                                                                                      <h6 class="ml-auto text-warning mr-4 mt-1">评价等级</h6>
+                                                                                    </div>
+                                                                                  <div><h4 class="ml-5 mt-2 mb-3 mt-2">评价内容</h4></div>
+                                                                                  <div><h6 class="text-muted ml-1">评价时间</h6></div>
+                                                                              </div>
+                                                                          </li> <br/><li>
+                                                                              <div class="border bg-light" style="border-radius: 10px;">
+                                                                                  <div class="row">
+                                                                                      <h6 class="text-primary ml-4 mt-1">评价人</h6>
+                                                                                      <h6 class="ml-auto text-warning mr-4 mt-1">评价等级</h6>
+                                                                                    </div>
+                                                                                  <div><h4 class="ml-5 mt-2 mb-3 mt-2">评价内容</h4></div>
+                                                                                  <div><h6 class="text-muted ml-1">评价时间</h6></div>
+                                                                              </div>
+                                                                          </li> <br/><li>
+                                                                              <div class="border bg-light" style="border-radius: 10px;">
+                                                                                  <div class="row">
+                                                                                      <h6 class="text-primary ml-4 mt-1">评价人</h6>
+                                                                                      <h6 class="ml-auto text-warning mr-4 mt-1">评价等级</h6>
+                                                                                    </div>
+                                                                                  <div><h4 class="ml-5 mt-2 mb-3 mt-2">评价内容</h4></div>
+                                                                                  <div><h6 class="text-muted ml-1">评价时间</h6></div>
+                                                                              </div>
+                                                                          </li> <br/><li>
+                                                                              <div class="border bg-light" style="border-radius: 10px;">
+                                                                                  <div class="row">
+                                                                                      <h6 class="text-primary ml-4 mt-1">评价人</h6>
+                                                                                      <h6 class="ml-auto text-warning mr-4 mt-1">评价等级</h6>
+                                                                                    </div>
+                                                                                  <div><h4 class="ml-5 mt-2 mb-3 mt-2">评价内容</h4></div>
+                                                                                  <div><h6 class="text-muted ml-1">评价时间</h6></div>
+                                                                              </div>
+                                                                          </li> 
+                                                                      </ul>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                          </div>
+                                     
+                                          <!-- 模态框底部 -->
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-dark" data-dismiss="modal">关闭</button>
+                                          </div>
+                                     
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
+                         
+                      </div>
+                  </div>
+                  <div id="menu1" class="container tab-pane fade"><br>
+                  <h3>类型 1</h3>
+                  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  </div>
+                  <div id="menu2" class="container tab-pane fade"><br>
+                  <h3>类型 2</h3>
+                  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                  </div>
+              </div>
+
+
+
+              
+          </div>
+      </div>
+  </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bsadmin.js"></script>
+
+</body>
+</html>

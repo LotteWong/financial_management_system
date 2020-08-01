@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>我的订单</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/bsadmin.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bsadmin.js"></script>
+    <!-- Import vue dependency -->
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        #myOrder{
+            color: rgba(255, 255, 255, 1);
+            background: rgba(0, 0, 0, 0.445);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Define app div -->
+<div id="app">
+    <div class="row align-items-center p-2 px-sm-4 bg-white border-bottom shadow-sm" style="text-align: center;">
+    <a class="sidebar-toggle mr-3 " id="sidebar-toggle"><i class="fa fa-bars"></i></a>
+    <h5 class="my-0 mr-md-auto font-weight-normal">理财产品销售平台</h5>
+    <!-- Function binding -->
+    <a class="btn btn-primary ml-auto text-white" v-on:click="signOut">登出</a>
+    </div>
+
+    <div class="d-flex">
+        <nav class="sidebar " >
+            <ul class="list-unstyled">
+                <li><a href="index.html" id="indexShop"><i class="fa fa-home"></i> 商城首页</a></li>
+                <li><a href="productList.html" id="searchProduct"><i class="fa fa-search" aria-hidden="true"></i> 产品列表</a></li>
+                <li><a href="myProduct.html" id="myProduct"><i class="fa fa-database"></i> 我的产品</a></li>
+                <li><a href="myOrder.html" id="myOrder"><i class="fa fa-shopping-basket"></i> 我的订单</a></li>
+                <hr/>
+                
+            </ul>
+        </nav>
+
+        <div class="container-fluid bg-light" >
+            <br/>
+            <div class="row">
+                <template v-if="orderList.length">
+                    <div v-for="(order,index) in orderList" :key="order.id" class="col-lg-10 sm-4 md-10 m-auto">
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-header bg-dark text-white">
+                            <!-- Data binding -->
+                            <h4 class="font-weight-normal">订单号 {{order.id}}</h4>
+                            </div>
+                            <div class="card-body align-items-center" >
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row mb-1">产品名称: {{order.productName}}</div> 
+                                    <div class="row">金额: {{order.amount}}</div>
+                                </div>
+                                <div class="col-sm-6 text-muted">
+                                    <div class="ro mb-1">下单时间: {{order.orderTime}}</div> 
+                                    <div class="ro mb-1">订单类型: <strong>{{order.orderTypeName}}</strong> </div> 
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </template>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    axios.defaults.withCredentials = true
+var appVue = new Vue({
+    el: '#app', // Coresponse to app div
+    data: {
+        orderList:[]
+    },
+    methods: {
+        signOut () {
+            alert("Signed out successfully!");
+            window.location.href='index.html';
+        }
+    },
+     async created() {
+        var url = 'http://localhost:8080/client/allOrders'
+        const {data:res} = await axios.get(url)
+        this.orderList = res.data
+    }
+})
+</script>
+
+</body>
+</html>

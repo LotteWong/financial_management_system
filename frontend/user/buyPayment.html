@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付页面</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/bsadmin.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bsadmin.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    
+    <div class="row align-items-center p-2 px-sm-4 bg-white border-bottom shadow-sm" style="text-align: center;">
+        <a class="sidebar-toggle mr-3 " id="sidebar-toggle"><i class="fa fa-bars"></i></a>
+        <h5 class="my-0 mr-md-auto font-weight-normal">理财产品销售平台</h5>
+        <a class="btn btn-primary ml-auto"" href="index.html">登出</a>
+      </div>
+
+      <div class="d-flex">
+        <nav class="sidebar " >
+            <ul class="list-unstyled">
+                <li><a href="index.html" id="indexShop"><i class="fa fa-home"></i> 商城首页</a></li>
+                <li><a href="productList.html" id="searchProduct"><i class="fa fa-search" aria-hidden="true"></i> 产品列表</a></li>
+                <li><a href="myProduct.html" id="myProduct"><i class="fa fa-database"></i> 我的产品</a></li>
+                <li><a href="myOrder.html" id="myOrder"><i class="fa fa-shopping-basket"></i> 我的订单</a></li>
+                <hr/>
+                
+            </ul>
+        </nav>
+    
+        <div id="app" class="container-fluid bg-white" >
+            <br/>
+            <div class="container mt-2 ">
+                <div class="row">
+                    <div class="col-sm-4 personal_info border-right">
+                        <h4>01 产品信息</h4> <hr/>
+                        <div>
+                            <h6 class="font-weight-bold text-center">产品名称#</h6>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td><h6>收益率</h6></td>
+                                        <td><h6>{{returnRate}}<small class="text-muted">&nbsp;%</small></h6></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h6>风险评级</h6></td>
+                                        <td><h6>{{riskLevel}} / 5  ({{riskLevelText}})</h6></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h6>期长</h6></td>
+                                        <td><h6>{{duration}}</h6></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h6>剩余额度/总额度</h6></td>
+                                        <td><h6>{{remainAmount}} / {{totalAmount}}</h6></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h6>起购金额</h6></td>
+                                        <td><h6>{{leastAmount}}</h6></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mb-4 border-right">
+                        
+                        
+                        <h4>02 付款方式</h4>
+                        <hr/>
+                        <form action="" class="mt-4">
+                            <ul class="list-group list-group-flush mt-5">
+                                <li class="list-group-item pt-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="cartaocredito" id="paypal" checked="checked">
+                                        <label class="form-check-label" for="paypal">
+                                          <img src="wepay.jpg" alt="" class="img-responsive" style="max-width: 100%;">
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item pt-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="cartaocredito" id="picpay">
+                                        <label class="form-check-label" for="picpay">
+                                          <img src="alipay.jpg" alt="" class="img-responsive" style="max-width: 100%;">
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                    <div class="col-sm-4">
+                        <h4>03 订单信息</h4><hr/>
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-dark text-white">
+                            <h4 class="font-weight-normal">订单信息</h4>
+                            </div>
+                            <div class="card-body align-items-center mt-4" >
+                                <table class="table table-hover table">
+                                    <tbody>
+                                        <tr>
+                                            <td><h6 class="font-weight-light">产品名称</h6></td>
+                                            <td><h6>{{name}}</h6></td>
+                                        </tr>
+                                        <tr>
+                                            <td><h6 class="font-weight-light">购买金额</h6></td>
+                                            <td><h6>{{amount}}</h6></td>
+                                        </tr>
+                                        <tr>
+                                            <td><h6 class="font-weight-light">下单时间</h6></td>
+                                            <td><h6>{{curTime}}</h6></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                        <button type="button" class="btn btn-success btn-block btn-lg mt-2 mb-3" @click="buyProduct()">确认购买</button>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+              
+             
+        
+    </div>
+    
+    <script>
+        axios.defaults.withCredentials = true
+        var content = window.location.href.split("=")[1]
+        var productId = content.split("&")[0]
+        var amount = parseInt(content.split("&")[1])
+        var myDate = new Date();
+        var curYear = myDate.getFullYear()
+        var curMonth = myDate.getMonth()+1
+        if(curMonth<10) {curMonth = '0'+curMonth }
+        var curDay = myDate.getDate()
+        if(curDay<10) {curDay = '0'+curDay}
+        var curDate = curYear+'-'+curMonth+'-'+curDay
+        var curTime = curYear+'-'+curMonth+'-'+curDay+' '
+        +myDate.getHours()+':'+myDate.getMinutes()+':'+myDate.getSeconds()
+        
+        
+        var sellPay = new Vue({
+            el: '#app',
+            data: {
+                amount: amount,
+                productId: productId,
+                curTime: curTime,
+                name: '',
+                returnRate: 0.0,
+                riskLevelText:'',
+                riskLevel: 0,
+                duration: '',
+                remainAmount: 0.0,
+                totalAmount: 0.0,
+                leastAmount: 0.0,
+                buyForm: {
+                    amount:amount,
+                    productId:productId
+                }
+            },
+            methods: {
+                async buyProduct(){
+                    var url = 'http://localhost:8080/client/buy' + '?amount=' + amount + '&productId=' + productId
+                    const {data: res} = await axios.post(url,this.buyForm,{
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'} });
+                    if(res.errorMsg === '成功') {
+                        alert("购买成功")
+                        window.location.href = "myOrder.html"
+                    }
+                    else {
+                        alert(res.errorMsg)
+                    }
+                }
+            },
+            async created() {
+                var urlModal = 'http://localhost:8080/product/selectOne' + '?id=' + this.productId
+                const {data: res} = await axios.get(urlModal)
+                var result = res.data
+                if(result.duration === '0') {
+                    this.duration = '活期产品'
+                }
+                else {
+                    var durationList = result.duration.split(',')
+                    this.duration = durationList[0]+'年 '+durationList[1]+'月 '+durationList[2]+'日'
+                }
+                this.name = result.name
+                this.returnRate = parseFloat(result.returnRate) 
+                switch(result.riskLevel)
+                {
+                    case 1: this.riskLevelText = '谨慎型'; break;
+                    case 2: this.riskLevelText = '稳健型'; break;
+                    case 3: this.riskLevelText = '平衡型'; break;
+                    case 4: this.riskLevelText = '进取型'; break;
+                    case 5: this.riskLevelText = '激进型'; break;
+                }
+                this.riskLevel = result.riskLevel
+                this.remainAmount = result.remainAmount
+                this.totalAmount = result.totalAmount
+                this.leastAmount = result.leastAmount
+            }
+        })
+    </script>
+
+
+</body>
+</html>
+

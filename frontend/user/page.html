@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分页</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/bsadmin.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bsadmin.js"></script>
+
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>   
+<style>
+  *{margin: 0;padding: 0;}
+  #page-break{margin-top: 20px;margin-left: 20px;}
+  #page-break li{list-style: none;}
+  #page-break a{border: 1px solid #ddd; text-decoration: none;float: left; width: 75px;padding: 6px 12px;color: #337ab7;cursor: pointer}
+  #page-break a:hover{background-color: #eee;}
+  #page-break a .banclick{cursor: not-allowed;}
+  #page-break .active a{color: #fff;cursor: default;background-color: #337ab7;border-color: #337ab7;}
+  #page-break i{font-style: normal;color: #d44950;margin: 0px 4px;font-size: 12px;}
+  
+</style>	
+</head>
+<body>
+
+    
+<div id="page-break" style="position: absolute;bottom: 30px; left: 50%;transform: translate(-50%);">
+    <ul style="display: inline-flex;">
+    <li v-if="cur>1" >
+      <a style="width: 80px;" v-on:click="cur--,pageClick()">上一页</a>
+    </li>
+    <li v-if="cur==1">
+      <a class="banclick">上一页</a>
+    </li>
+    <li v-for="item in indexs" v-bind:class="{'active':cur==item}">
+      <a v-on:click="btnClick(item), pageClick()" style="width: 30px;">{{item}}</a>
+    </li>
+    <li v-if="cur!=all">
+      <a v-on:click="cur++,pageClick()">下一页</a>
+    </li>
+    <li v-if="cur==all">
+      <a class="banclick">下一页</a>
+    </li>
+    <li><a style="width: 80px;">共<i>{{all}}</i>页</a></li>
+    <input type="number" style="margin-left: 10px;width: 80px;height: 38px;float: left;">
+    <a class="jumpbtn" v-on:click="pageSkip()" style="width: 60px;float: left;">跳转</a>
+	
+  </ul>
+</div>
+</body>
+</html>
+
+<script>
+     new Vue({
+	el: '#page-break',
+	data: {
+		cur: 1,
+		all: 20
+	},
+	watch: {
+		cur: function(newValue, oldValue){
+			console.log(arguments);
+		}
+	},
+	methods: {
+		btnClick(num){
+			if(num!=this.cur){
+				this.cur=num;
+			}
+		},
+		pageClick(){
+			console.log('现在是'+this.cur+'页')
+		},
+		pageSkip(){
+			var maxPage = this.all;
+			var skipPage = Number(document.getElementsByClassName("jumppage")[0].value);
+			console.log(typeof skipPage);
+			if(!skipPage){
+				alert("请输入跳转页码");
+				return;
+			}else if(skipPage<1 || skipPage>maxPage){
+				alert("您输入的页码超过页数范围了！");
+				return;
+			}else{
+				//this.cur=skipPage;
+				this.btnClick(skipPage);
+				this.pageClick();
+			}
+		}
+	},
+	computed: {
+		indexs(){
+			var left = 1;
+			var right = this.all;
+			var arr = [];
+			if(this.all>=7){
+				if(this.cur>4 && this.cur<this.all-3){
+					left = this.cur-3;
+					right = this.cur+3;
+				}else if(this.cur<=4){
+                    left=1;
+                    right=7;
+				}else{
+					left=this.all-6;
+					right=this.all;
+				}
+			}
+			while(left<=right){
+				arr.push(left);
+				left++;
+			}
+			return arr;
+		}
+	}
+})
+</script>

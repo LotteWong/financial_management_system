@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>搜索结果</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/bsadmin.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bsadmin.js"></script>
+
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        body{
+            padding-right: 0px !important; 
+        }
+
+        *.modal-open {
+            padding-right: 0 !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="row align-items-center p-2 px-sm-4 bg-white border-bottom shadow-sm" style="text-align: center;">
+  <a class="sidebar-toggle mr-3 " id="sidebar-toggle"><i class="fa fa-bars"></i></a>
+  <h5 class="my-0 mr-md-auto font-weight-normal">理财产品销售平台</h5>
+  <a class="btn btn-primary ml-auto"" href="index.html">登出</a>
+</div>
+
+
+<div class="d-flex">
+    <nav class="sidebar" >
+        <ul class="list-unstyled">
+            <li><a href="index.html" id="indexShop"><i class="fa fa-home"></i> 商城首页</a></li>
+            <li><a href="productList.html" id="searchProduct"><i class="fa fa-search" aria-hidden="true"></i> 产品列表</a></li>
+            <li><a href="myProduct.html" id="myProduct"><i class="fa fa-database"></i> 我的产品</a></li>
+            <li><a href="myOrder.html" id="myOrder"><i class="fa fa-shopping-basket"></i> 我的订单</a></li>
+            <hr/>
+            
+        </ul>
+    </nav>
+
+    <div class="container-fluid bg-light" >
+        <div class="row">
+            <div class="col-sm-10 col-lg-10">
+                <div id="app">
+                    <div class="tab-content">
+                        <div id="home" class="container tab-pane active"><br>
+                            <div class="row">
+                                <template v-if="productList.length">
+                                    <div v-for="(product, index) in productList" :key="product.id" class="col-lg-4" style="margin-bottom: 20px;">
+                                        <div class="card mb-3 shadow-sm" style="border-radius: 10px;">
+                                            <div class="card-header bg-dark text-white" style="border-top-right-radius: 10px;border-top-left-radius: 10px;" >
+                                            <h4 class="my-0 font-weight-normal">{{product.name}}</h4>
+                                            </div>
+                                            <div class="card-body">
+                                            <h1 class="card-title pricing-card-title"><small class="text-danger">收益率:</small> {{product.returnRate}}<small class="text-muted">%</small></h1>
+                                            <ul class="list-unstyled mt-3 mb-3">
+                                                <li>产品类型: {{product.productType}}</li>
+                                                <li>风险等级: {{product.riskLevel}} / 5</li>
+                                            </ul>
+                                            <button type="button" @click="productInfo(product.id)" class="btn btn-lg btn-block btn-link border-primary" data-toggle="modal" data-target="#productInfoModal" >去看看</button>
+                                            <div class="modal fade" data-backdrop="static" id="productInfoModal">
+                                                <div class="modal-dialog modal-lg">
+                                                  <div class="modal-content">
+                                               
+                                                    <!-- 模态框头部 -->
+                                                    <div class="modal-header bg-light">
+                                                      <h4 class="modal-title">产品详细信息</h4>
+                                                    </div>
+                                               
+                                                    <!-- 模态框主体 -->
+                                                    <div class="modal-body">
+                                                        <div id="app">
+                                                            <div class="container-fluid bg-white" style="height: 560px; overflow: auto;">
+                                                                <div class="row">
+                                                                    <div class="col-sm-5 border-right">
+                                                                        <h5 class="ml-3 mt-3 font-weight-bold text-center">{{name}}</h5> <hr/>
+                                                                        <table class="table table-hover table">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td><h6>收益率</h6></td>
+                                                                                    <td><h6>{{returnRate}}<small class="text-muted">&nbsp;%</small></h6></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><h6>风险评级</h6></td>
+                                                                                    <td><h6>{{riskLevel}} / 5  ({{riskLevelText}})</h6></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><h6>期长</h6></td>
+                                                                                    <td><h6>{{duration}}</h6></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><h6>剩余额度/总额度</h6></td>
+                                                                                    <td><h6>{{remainAmount}} / {{totalAmount}}</h6></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><h6>起购份额</h6></td>
+                                                                                    <td><h6>{{leastAmount}}</h6></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <hr/><br/>
+                                                                        <div class="row m-auto" style="width: 80%;">
+                                                                            <button type="button" class="btn btn-block btn-success mb-3" data-toggle="modal" data-target="#buyproductModal">买入</button>
+                                                                            <div class="modal fade " style="margin-top: 14%;" tabindex="-1" id="buyproductModal">
+                                                                                <div class="modal-dialog">
+                                                                                  <div class="modal-content">
+                                                                                    <div class="modal-header bg-success text-white">
+                                                                                      <h4 class="modal-title">买入产品</h4>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form :model="buyForm" class="bs-example bs-example-form">
+                                                                                            <div>
+                                                                                                <input id="buyAmount" type="text" placeholder="请输入购买金额" v-model="buyForm.amount" class="form-control mb-2">
+                                                                                                <span class="input-group-addon"><button type="button" @click="buyProduct(product.id)" class="btn btn-block btn-link border-primary">提交</button></span>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div> 
+                                                                                  </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button type="button" data-toggle="modal" data-target="#sellproductModal" class="btn btn-block btn-danger">卖出</button>
+                                                                            <div class="modal fade" style="margin-top: 14%;" tabindex="-1" id="sellproductModal">
+                                                                                <div class="modal-dialog">
+                                                                                  <div class="modal-content">
+                                                                                    <div class="modal-header bg-danger text-white">
+                                                                                      <h4 class="modal-title">卖出产品</h4>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form class="bs-example bs-example-form" :model="sellForm">
+                                                                                            <div >
+                                                                                                <input id="sellAmount" placeholder="请输入出售金额" type="text" v-model="sellForm.amount" class="form-control mb-2">
+                                                                                                <span class="input-group-addon"><button type="button" @click="sellProduct(product.id)" class="btn btn-block btn-link border-primary">提交</button></span>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div> 
+                                                                                  </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-7">
+                                                                        <h5 class="ml-3 mt-3">评估记录</h5> <hr/>
+                                                                        <div class="container" style="height: 480px; overflow: auto;">
+                                                                            <ul class="list-unstyled">
+                                                        
+                                                                                <template v-if="commentList.length">
+                                                                                    <li v-for="(comment, index) in commentList" :key="comment.id" style="margin-bottom: 10px;">
+                                                                                        <div class="border bg-light" style="border-radius: 5px;">
+                                                                                            <div class="row">
+                                                                                                <strong class="text-primary ml-1 mt-1">{{comment.assessorName}}</strong>
+                                                                                                <p class="ml-auto text-muted mr-1 mt-1">评价等级: <strong class="text-danger">{{comment.assessResult}}</strong> </p>
+                                                                                              </div>
+                                                                                            <div><p class="ml-3">{{comment.assessText}}</p></div>
+                                                                                            <div><small class="text-muted ml-1">{{comment.assessTime}}</small></div>
+                                                                                        </div>
+                                                                                        
+                                                                                    </li>
+                                                                                </template>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                               
+                                                    <!-- 模态框底部 -->
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-dark" data-dismiss="modal">关闭</button>
+                                                    </div>
+                                               
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+
+                
+            </div>
+        </div>
+    </div>
+        
+          
+         
+    
+</div>
+
+
+
+<script>
+    axios.defaults.withCredentials = true
+    var url1 = decodeURI(window.location.href) 
+    var urlSearch = window.location.href.split("=")[1]
+    var keyword = decodeURI(window.location.href.split("=")[2])
+    urlSearch += '='+keyword
+    var index = new Vue({
+        el: '#app',
+        data: {
+            name: '',
+            returnRate: 0.0,
+            riskLevelText:'',
+            riskLevel: 0,
+            duration: '',
+            remainAmount: 0.0,
+            totalAmount: 0.0,
+            leastAmount: 0.0,
+            commentList: [],
+            productList: [],
+            buyForm: {
+                amount: 0,
+                productId: ''
+                },
+            sellForm: {
+                amount: 0,
+                productId: ''
+            }
+        },
+        methods: {
+            async productInfo(Id) {
+                var productId = Id
+                var urlModal = 'http://localhost:8080/product/selectOne' + '?id=' + productId
+                const {data: res} = await axios.get(urlModal)
+                var result = res.data
+                if(result.duration === '0') {
+                    this.duration = '活期产品'
+                }
+                else {
+                    var durationList = result.duration.split(',')
+                    this.duration = durationList[0]+'年 '+durationList[1]+'月 '+durationList[2]+'日'
+                }
+                this.name = result.name
+                this.returnRate = parseFloat(result.returnRate) 
+                switch(result.riskLevel)
+                {
+                    case 1: this.riskLevelText = '谨慎型'; break;
+                    case 2: this.riskLevelText = '稳健型'; break;
+                    case 3: this.riskLevelText = '平衡型'; break;
+                    case 4: this.riskLevelText = '进取型'; break;
+                    case 5: this.riskLevelText = '激进型'; break;
+                }
+                this.riskLevel = result.riskLevel
+                this.remainAmount = result.remainAmount
+                this.totalAmount = result.totalAmount
+                this.leastAmount = result.leastAmount
+                this.commentList = result.productAssessments
+            },
+            async buyProduct(Id) {
+                var amount = document.getElementById('buyAmount').value;
+                var IDP = Id
+                var url = "buyPayment.html?index="+IDP+'&'+ amount
+                window.open(url) 
+                },
+            async sellProduct(Id) {
+                var amount = document.getElementById('sellAmount').value;
+                var IDP = Id
+                var url = "sellPayment.html?index="+IDP+'&'+ amount
+                window.open(url)
+            }
+        },
+        async created() {
+            const {data: res1} = await axios.get(urlSearch)
+            var resultList = res1.data
+            for(var i=0;i<resultList.length;i++){
+                var productId = resultList[i]["id"]
+                var url_product = 'http://localhost:8080/product/selectOne?id=' + productId
+                const {data: res2} = await axios.get(url_product)
+                var productDic = res2.data
+                this.productList.push(productDic)
+            }
+            
+        }
+    })
+</script>
+
+</body>
+</html>
