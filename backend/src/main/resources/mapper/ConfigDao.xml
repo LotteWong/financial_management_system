@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.financial_system.dao.ConfigDao">
+
+    <resultMap type="com.example.financial_system.entity.Config" id="ConfigMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="subProductList" column="sub_product_list" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="base_column_list">
+        id, sub_product_list    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ConfigMap">
+        select
+        <include refid="base_column_list" />
+        
+        from financial_system.config
+        where id = #{id}
+    </select>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="ConfigMap">
+        select
+        <include refid="base_column_list" />
+
+        from financial_system.config
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into financial_system.config(sub_product_list)
+        values (#{subProductList})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update financial_system.config
+        <set>
+            <if test="subProductList != null and subProductList != ''">
+                sub_product_list = #{subProductList},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from financial_system.config where id = #{id}
+    </delete>
+    
+    <!--选择性的新增列-->
+    <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true">
+        insert into financial_system.config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subProductList != null and subProductList != ''">
+                sub_product_list,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="subProductList != null and subProductList != ''">
+                #{subProductList},
+            </if>
+        </trim>        
+    </insert>
+    
+    <!--返回表行数-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(*)
+        from financial_system.config
+    </select>
+
+</mapper>
